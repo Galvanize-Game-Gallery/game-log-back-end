@@ -6,11 +6,15 @@ const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 3000
 
-app.disable('x-powered-by')
+app.disable('x-powered-by');
 app.use(bodyParser.json());
-app.use(cors())
+app.use(cors());
+require('dotenv').config();
 
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'))
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 const user = require('./routes/userroute')
 const game = require('./routes/gameroute')

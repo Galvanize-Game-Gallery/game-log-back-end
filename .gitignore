@@ -83,4 +83,7 @@ typings/
 #DynamoDB Local files
 .dynamodb/
 
+#File for API Key & SECRET STRING
+.env
+
 # End of https://www.gitignore.io/api/node

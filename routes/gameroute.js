@@ -3,6 +3,6 @@ const router = express.Router()
 const ctrl = require('../controllers/gamecontroller')
 
 //get all
-router.get('/', ctrl.getAll)
+// router.get('/', ctrl.getAll)
 
 module.exports = router

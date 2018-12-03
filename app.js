@@ -18,6 +18,9 @@ if (process.env.NODE_ENV === 'development') {
 const user = require('./src/routes/userroute')
 const game = require('./src/routes/gameroute')
 const igdb = require('./src/routes/igdbroutes');
+
+app.use('/auth', require('./src/routes/auth'))
+app.use('/users', require('./src/routes/userroute'))
 app.use('/user', user)
 app.use('/game', game)
 app.use('/', igdb);

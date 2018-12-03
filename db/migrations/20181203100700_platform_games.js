@@ -8,5 +8,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('platforms_games');
+  return knex.schema.dropTableIfExists('platform_games');
 };

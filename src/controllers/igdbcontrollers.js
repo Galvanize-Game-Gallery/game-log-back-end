@@ -11,7 +11,9 @@ function getGame (req, res, next) {
 };
 
 function getPlatforms (req, res, next) {
-    model.getPlatforms().then(function(result) {
+    const platformID = req.params.id;
+    console.log(platformID);
+    model.getPlatforms(platformID).then(function(result) {
         if (!result)
             return next({stats: 404, message: "No Systems Found"});
 

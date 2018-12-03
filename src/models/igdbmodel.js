@@ -4,7 +4,7 @@ const client = igdb(key);
 
 const getGame = function(title) {
     return client.games({
-        fields: ['id', 'name', 'rating', 'cover.url', 'platforms'],
+        fields: ['id', 'name', 'cover.url', 'platforms', 'summary'],
         limit: 5,
         offset: 0, 
         // order: 'rating:desc',
@@ -16,12 +16,12 @@ const getGame = function(title) {
     })
 };
 
-const getPlatforms = function() {
+const getPlatforms = function(title) {
     return client.platforms({
-        fields: ['id', 'name', 'generation', 'logo.url', 'summary'],
-        limit: 10,
+        fields: ['id', 'name', 'logo', 'url'],
+        limit: 50,
         offset: 0,
-        order: 'generation:desc',
+        search: title
     }).then(response => {
         return response.body;
     }).catch(error => {

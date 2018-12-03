@@ -1,5 +1,5 @@
 const path = require('path')
-const devdb = 'DATABASE_NAME_HERE' //fill in
+const devdb = 'ddd_dev' //fill in
 
 module.exports = {
   development: {

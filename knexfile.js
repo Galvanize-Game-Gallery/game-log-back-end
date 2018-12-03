@@ -1,5 +1,5 @@
 const path = require('path')
-const devdb = 'ddd_dev' //fill in
+const devdb = 'ggg_dev' //fill in
 
 module.exports = {
   development: {

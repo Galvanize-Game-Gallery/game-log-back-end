@@ -33,7 +33,32 @@ function create(username, password, fname, lname){
   })
 }
 
+function addPlatformToUser(userID, platformID, purchased, notes){
+return db('users')
+.where('user.id', userID)
+.then(function(gamer) {
+  if (!gamer) 
+    throw {status: 400, message: "Gamer does not exist"}
+
+  return db('platforms')
+  .where('platform.igdb_id', platformID)
+})
+.then(function(system){
+  if (!gamer) 
+    throw {status: 400, message: "System does not exist"}
+  
+  return db(user_platforms)
+  .insert({user_id: iserID, 
+    platform_id: platformID, 
+    year_purchased: purchased, 
+    platform_notes: notes})
+    .returning('*')
+})
+
+}
+
 module.exports = {
   getOneByUserName,
-  create
+  create,
+  addPlatformToUser
 }

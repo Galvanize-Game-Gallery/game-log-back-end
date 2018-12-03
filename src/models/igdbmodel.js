@@ -16,12 +16,12 @@ const getGame = function(title) {
     })
 };
 
-const getPlatforms = function(title) {
+const getPlatforms = function(id) {
     return client.platforms({
         fields: ['id', 'name', 'logo', 'url'],
-        limit: 50,
+        limit: 1,
         offset: 0,
-        search: title
+        search: id
     }).then(response => {
         return response.body;
     }).catch(error => {

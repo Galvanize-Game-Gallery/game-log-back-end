@@ -1,6 +1,8 @@
 const axios = require('axios')
 
 const userModel = require('../models/usermodel') 
+const userModel = require('../models/usermodel') // review path for updating. 
+const igdb = require('../models/igdbmodel')
 
 
 function create(req, res, next){
@@ -17,7 +19,11 @@ function create(req, res, next){
   }
 
   if(!req.body.lname){
-    return next({ status: 400, message: 'Bad request'})
+    return next({ status: 400, message: 'Bad Request, Username required'})
+  }
+
+  if(!req.body.password){
+    return next({ status: 400, message: 'Bad Request, Password Required'})
   }
 
   userModel.create(req.body.username, req.body.password, req.body.fname, req.body.lname)

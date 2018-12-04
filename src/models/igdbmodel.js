@@ -19,7 +19,7 @@ const checkLibrary = function(id) {
     })
     .catch(error => {
     throw error; })
-}
+};
 
 const getGame = function(id) {
     return client.games({
@@ -63,17 +63,12 @@ const getPlatforms = function(id) {
 };
 
 const addGame = function(id) {
-    getGame(id)
+    return getGame(id)
     .then(function([result]){
-        if (!result) throw {error: 400, message: "Game Not Found"}
-        
-        // const newGame = {
-        //     igdb_id: result.id,
-        //      title: result.name,
-        //       cover_url: result.cover.url,
-        //        desc: result.summary
-        //     };
+        if (!result) throw {error: 400, message: "This Game Not Found"}
+       
         platforms = result.platforms
+        console.log(platforms);
         //   console.log(newGame)
         return db('games').insert([
             {
@@ -83,9 +78,28 @@ const addGame = function(id) {
                    desc: result.summary
                 }
         ])
-        .returning('*')
+        .then(function () {
+                const promises = platforms.map(ele => {
+                    return db('platforms')
+                    .where({
+                        igdb_id: ele
+                    })
+                    .then(function ([data]) {
+                        //if platform exists, add an entry to platform_games
+                        if (data) {
+                            return db('platform_games').insert([{
+                                platform_id: ele,
+                                game_id: id
+                            }])
+                        } else {
+                            return Promise.resolve({message: "Platform not part of our Database."});
+                        }
+                    })
+                }) 
+                return Promise.all(promises)
+        })
     })
-}
+};
 
 module.exports = {
     getGame,

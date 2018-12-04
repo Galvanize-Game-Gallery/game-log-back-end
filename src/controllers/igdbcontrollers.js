@@ -2,12 +2,11 @@ const model = require('../models/igdbmodel');
 
 function getGame (req, res, next) {
     const gameID = req.params.id;
-    console.log(gameID);
     model.getGame(gameID).then(function(result) {
         if (!result)
         return next({ status: 404, message: "Game not Found" });
     
-      res.status(200).send(result);
+    return result;
     })
 };
 
@@ -33,18 +32,13 @@ function getPlatforms (req, res, next) {
 
 function addGameToLibrary (req, res, next) {
     const gameID = req.params.id;
+    model.addGame(gameID).then(function(result) {
+        if (!result)
+            return next({status: 404, message: "Game Not Found"});
 
-    const result = model.addGame(gameID)
-    // console.log(result);
-    // model.addGame(gameID).then(function(result) {
-    //     if (!result)
-    //         return next({status: 404, message: "Game Not Found"});
-
-    // res.status(200).send(result);
-    // })
-    if(!result) next({status: 404, message: "Bad Additional Request"})
-
-    return res.status(200).send(result); 
+    res.status(200).send(result);
+    })
+    .catch(next);
 };
 
 function checkLibrary(req, res, next) {
@@ -57,8 +51,8 @@ function checkLibrary(req, res, next) {
 }
 
 module.exports = {
-    getGame,
     getGames,
+    getGame,
     getPlatforms,
     addGameToLibrary,
     checkLibrary

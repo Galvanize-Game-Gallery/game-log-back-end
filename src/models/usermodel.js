@@ -44,11 +44,11 @@ return db('users')
   .where('platform.igdb_id', platformID)
 })
 .then(function(system){
-  if (!gamer) 
+  if (!system) 
     throw {status: 400, message: "System does not exist"}
   
   return db(user_platforms)
-  .insert({user_id: iserID, 
+  .insert({user_id: userID, 
     platform_id: platformID, 
     year_purchased: purchased, 
     platform_notes: notes})

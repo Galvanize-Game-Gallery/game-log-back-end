@@ -4,6 +4,7 @@ const router = express.Router()
 const userController = require('../controllers/usercontroller')
 
 router.post('/', userController.create)
+router.post('/user/platform/', userController.create)
 
 
 

@@ -79,11 +79,23 @@ function addToPlatformGames (gameID, platformID) {
     })
     .returning('*')
   })
-}
+};
+
+function addGame(gameID, title, coverArt, info) {
+  return db('games')
+  .insert({
+    igdb_id: gameID,
+    title: title,
+    cover_url: coverArt,
+    desc: info
+  })
+  .returning('*')
+};
 
 module.exports = {
   getOneByUserName,
   create,
   addPlatformToUser,
-  addToPlatformGames
+  addToPlatformGames,
+  addGame
 }

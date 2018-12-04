@@ -21,8 +21,8 @@ const igdb = require('./src/routes/igdbroutes');
 
 app.use('/auth', require('./src/routes/auth'))
 app.use('/user', user)
-app.use('/game', game)
-app.use('/', igdb);
+// app.use('/game', game)
+app.use('/games', igdb);
 
 
 app.use((err, req, res, next) => {

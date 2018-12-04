@@ -5,6 +5,7 @@ const userController = require('../controllers/usercontroller')
 const gameController = require('../controllers/gamecontroller')
 
 router.post('/', userController.create)
+router.post('/user/platform/', userController.create)
 
 router.post('/:userId/platforms/:platformId/games', userController.verifyUserPlatform, gameController.verifyPlatformGames, userController.addToShelf)
 

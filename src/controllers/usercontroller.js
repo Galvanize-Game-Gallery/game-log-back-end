@@ -1,6 +1,7 @@
 const axios = require('axios')
 
 const userModel = require('../models/usermodel') // review path for updating. 
+const igdb = require('../models/igdbmodel')
 
 
 function create(req, res, next){
@@ -17,7 +18,14 @@ function create(req, res, next){
     return res.status(201).send({ data })
   })
   .catch(next)
-}
+};
+
+function addPlatform(req, res, next){
+  const {year_purchased, platform_notes, platform_id, user_id} = req.body;
+  userModel.addPlatformToUser(system, year_purchased, platform_notes, platform_id, user_id).then(function(result){
+    res.status(201).send(result)
+  })
+};
 
 function verifyUserPlatform(req,res,next) {
   if(!req.params.userId) return next({status: 400, message: 'Bad Request, UserID is required'})
@@ -39,5 +47,5 @@ function addToShelf(req,res,next){
 }
 
 module.exports = {
-  create, verifyUserPlatform, addToShelf
+  create, verifyUserPlatform, addToShelf, addPlatform
 }

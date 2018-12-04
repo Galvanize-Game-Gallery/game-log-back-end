@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken')
 
 function login(req, res, next){
   if(!req.body.username){
-    return next({ status: 400, message: 'Bad request'})
+    return next({ status: 400, message: 'Bad request, no username'})
   }
 
   if(!req.body.password){
-    return next({ status: 400, message: 'Bad request'})
+    return next({ status: 400, message: 'Bad request, no password'})
   }
 
   authModel.login(req.body.username, req.body.password)
@@ -17,7 +17,10 @@ function login(req, res, next){
 
     return res.status(200).send({ token })
   })
-  .catch(next)
+  .catch(() => {
+    next()
+  })
+ 
 }
 
 
@@ -41,7 +44,7 @@ function isAuthenticated(req, res, next){
 
     req.claim = payload
 
-    next()
+    next() 
   })
 }
 

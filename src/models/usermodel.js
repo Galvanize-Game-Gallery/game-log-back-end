@@ -73,29 +73,29 @@ function addToShelf(upid, pgid, gamebody){
       .returning('*')
     )
   })
+}
 
 function addPlatformToUser(userID, platformID, purchased, notes){
-return db('users')
-.where('user.id', userID)
-.then(function(gamer) {
-  if (!gamer) 
-    throw {status: 400, message: "Gamer does not exist"}
+  return db('users')
+  .where('user.id', userID)
+  .then(function(gamer) {
+    if (!gamer) 
+      throw {status: 400, message: "Gamer does not exist"}
 
-  return db('platforms')
-  .where('platform.igdb_id', platformID)
-})
-.then(function(system){
-  if (!system) 
-    throw {status: 400, message: "System does not exist"}
-  
-  return db(user_platforms)
-  .insert({user_id: userID, 
-    platform_id: platformID, 
-    year_purchased: purchased, 
-    platform_notes: notes})
-    .returning('*')
-})
-
+    return db('platforms')
+    .where('platform.igdb_id', platformID)
+  })
+  .then(function(system){
+    if (!system) 
+      throw {status: 400, message: "System does not exist"}
+    
+    return db(user_platforms)
+    .insert({user_id: userID, 
+      platform_id: platformID, 
+      year_purchased: purchased, 
+      platform_notes: notes})
+      .returning('*')
+  })
 }
 
 module.exports = {

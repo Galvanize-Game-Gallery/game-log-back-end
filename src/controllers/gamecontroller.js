@@ -6,10 +6,12 @@ function verifyPlatformGames(req,res,next) {
 
     model.verifyPlatformGames(req.params.platformId, req.body.game_id)
     .then(data => {
-        req.pgid = data.id
+        req.pgid = data[0].id
         return next()
     })
     .catch(next)
 }
 
 module.exports = {verifyPlatformGames}
+
+// http POST :3000/user/1/platforms/6/games game_id=231 user_rating=3 notes="What a classic"

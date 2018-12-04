@@ -34,11 +34,11 @@ function create(username, password, fname, lname){
 function verifyUserPlatform(userid, platformid) {
   return (
     db('user_platforms')
+    .select('*')
     .where({
       user_id: userid,
       platform_id: platformid
     })
-    .returning('*')
   )
   .then(data => {
     if(!data) throw {status:404, message: 'User does not own this platform, cannot add game'}
@@ -50,26 +50,34 @@ function verifyUserPlatform(userid, platformid) {
 function addToShelf(upid, pgid, gamebody){
   return (
     db('user_games_platform')
+    .select('*')
     .where({
       u_p_id: upid,
       p_g_id: pgid
     })
-    .returning('*')
   )
   .then(data => {
-    if (data) throw {status:400, message: 'This user already has this game for that platform'}
+    if (data) throw {status:400, message: data}
+    return {win: 'yes'}
+    // let gameObject = {
+    //   p_g_id: pgid,
+    //   u_p_id: upid}
+      
+    //  if(gamebody.user_rating) gameObject.user_rating = gamebody.user_rating
+    // if(gamebody.notes) gameObject.notes = gamebody.notes
 
-    return (
-      db('user_games_platform').insert([
-        {}
-        // {id: 1, p_g_id: 2, u_p_id: 1, user_rating: 2, notes: "This game is super slow, the economy sucks, the user interface is over-engineered"}
-      ])
-    )
+    // return (
+    //   db('user_games_platform').insert([
+    //     gameObject
+    //   ])
+    //   .returning('*')
+    // )
   })
 }
 
 module.exports = {
   getOneByUserName,
   create,
-  verifyUserPlatform
+  verifyUserPlatform,
+  addToShelf
 }

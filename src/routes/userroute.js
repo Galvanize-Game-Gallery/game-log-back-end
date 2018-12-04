@@ -2,10 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 const userController = require('../controllers/usercontroller')
-const gameController = require('../controllers/gamecontroller')
+const igdbController = require('../controllers/igdbcontrollers')
 
 router.post('/', userController.create)
 router.post('/user/platform/', userController.create)
-router.post('/:userId/platforms/:platformId/games', userController.verifyUserPlatform, gameController.verifyPlatformGames, userController.addToShelf)
+router.post('/:userId/platforms/:platformId/games', userController.verifyUserPlatform, igdbController.verifyPlatformGames, userController.addToShelf)
 
 module.exports = router

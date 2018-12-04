@@ -98,9 +98,46 @@ function addPlatformToUser(userID, platformID, purchased, notes){
   })
 }
 
+function addToPlatformGames (gameID, platformID) {
+  return db('games')
+  .where('games.igdb_id',gameID )
+  .then(function(game){
+    if (!game)
+      throw { status: 400, message: "Game Not Found!"}
+
+    return db('platforms'
+    .where('platforms.igdb_id', platformID))
+  })
+  .then(function(system){
+    if (!system)
+      throw { status: 400, message: 'System not Found!'}
+
+    return db('platform_games')
+    .insert({
+      game_id: gameID,
+      platform_id: platformID
+    })
+    .returning('*')
+  })
+};
+
+function addGame(gameID, title, coverArt, info) {
+  return db('games')
+  .insert({
+    igdb_id: gameID,
+    title: title,
+    cover_url: coverArt,
+    desc: info
+  })
+  .returning('*')
+};
+
 module.exports = {
   getOneByUserName,
-  create, verifyUserPlatform,
-  addToShelf,
-  addPlatformToUser
+  addPlatformToUser,
+  addToPlatformGames,
+  addGame,
+  create, 
+  verifyUserPlatform,
+  addToShelf
 }

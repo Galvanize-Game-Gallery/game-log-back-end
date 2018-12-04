@@ -11,7 +11,6 @@ function verifyPlatformGames(platformid, gameid){
     )
     .then(data=> {
         if(!data) throw {status:404, message: 'Game not found on that platform'}
-
         return data
     })
 }

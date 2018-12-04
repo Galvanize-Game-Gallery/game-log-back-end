@@ -56,22 +56,22 @@ function addToShelf(upid, pgid, gamebody){
       p_g_id: pgid
     })
   )
-  .then(data => {
-    if (data) throw {status:400, message: data}
-    return {win: 'yes'}
-    // let gameObject = {
-    //   p_g_id: pgid,
-    //   u_p_id: upid}
+  .then(function([data]) {
+    if (data) throw {status:400, message: 'This user already has this game for that platform'}
+    
+    let gameObject = {
+      p_g_id: pgid,
+      u_p_id: upid}
       
-    //  if(gamebody.user_rating) gameObject.user_rating = gamebody.user_rating
-    // if(gamebody.notes) gameObject.notes = gamebody.notes
+    if(gamebody.user_rating) gameObject.user_rating = gamebody.user_rating
+    if(gamebody.notes) gameObject.notes = gamebody.notes
 
-    // return (
-    //   db('user_games_platform').insert([
-    //     gameObject
-    //   ])
-    //   .returning('*')
-    // )
+    return (
+      db('user_games_platform').insert([
+        gameObject
+      ])
+      .returning('*')
+    )
   })
 }
 

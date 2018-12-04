@@ -31,7 +31,6 @@ function verifyUserPlatform(req,res,next) {
 }
 
 function addToShelf(req,res,next){
-  console.log(req.upid, '...', req.pgid)
   userModel.addToShelf(req.upid, req.pgid, req.body)
   .then(result => {
     res.status(201).send({result})

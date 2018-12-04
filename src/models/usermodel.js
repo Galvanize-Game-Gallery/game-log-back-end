@@ -1,5 +1,3 @@
-const knex = require('../../db') // review this if we run into issues. 
-
 const db = require('../../db')
 const bcrypt = require('bcrypt')
 
@@ -33,6 +31,49 @@ function create(username, password, fname, lname){
   })
 }
 
+function verifyUserPlatform(userid, platformid) {
+  return (
+    db('user_platforms')
+    .select('*')
+    .where({
+      user_id: userid,
+      platform_id: platformid
+    })
+  )
+  .then(data => {
+    if(!data) throw {status:404, message: 'User does not own this platform, cannot add game'}
+
+    return data
+  })
+}
+
+function addToShelf(upid, pgid, gamebody){
+  return (
+    db('user_games_platform')
+    .select('*')
+    .where({
+      u_p_id: upid,
+      p_g_id: pgid
+    })
+  )
+  .then(function([data]) {
+    if (data) throw {status:400, message: 'This user already has this game for that platform'}
+    
+    let gameObject = {
+      p_g_id: pgid,
+      u_p_id: upid}
+      
+    if(gamebody.user_rating) gameObject.user_rating = gamebody.user_rating
+    if(gamebody.notes) gameObject.notes = gamebody.notes
+
+    return (
+      db('user_games_platform').insert([
+        gameObject
+      ])
+      .returning('*')
+    )
+  })
+
 function addPlatformToUser(userID, platformID, purchased, notes){
 return db('users')
 .where('user.id', userID)
@@ -59,6 +100,7 @@ return db('users')
 
 module.exports = {
   getOneByUserName,
-  create,
+  create, verifyUserPlatform,
+  addToShelf,
   addPlatformToUser
 }

@@ -68,7 +68,6 @@ const addGame = function(id) {
         if (!result) throw {error: 400, message: "This Game Not Found"}
        
         platforms = result.platforms
-        console.log(platforms);
         //   console.log(newGame)
         return db('games').insert([
             {
@@ -106,5 +105,5 @@ module.exports = {
     getPlatforms,
     getGames,
     checkLibrary,
-    addGame
+    addGame,
 }

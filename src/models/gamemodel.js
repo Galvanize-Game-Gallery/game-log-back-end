@@ -13,6 +13,18 @@ function verifyPlatformGames(platformid, gameid){
         if(!data) throw {status:404, message: 'Game not found on that platform'}
         return data
     })
-}
+};
 
-module.exports = {verifyPlatformGames}
+const getLibrary = function() {
+    return db('games')
+    .returning('*')
+    .then(data=> {
+        if(!data) throw {status:404, message: 'Uh  Oh Our Library is Missing!'}
+        return data
+    })
+};
+
+module.exports = {
+    verifyPlatformGames,
+    getLibrary
+}

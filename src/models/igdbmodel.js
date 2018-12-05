@@ -66,19 +66,16 @@ const addGame = function(id) {
     return getGame(id)
     .then(function([result]){
         if (!result) throw {error: 400, message: "This Game Not Found"}
-       
         platforms = result.platforms
-        //   console.log(newGame)
-        return db('games').insert([
-            {
-                igdb_id: result.id,
-                 title: result.name,
-                  cover_url: result.cover.url,
-                   desc: result.summary
-                }
-        ])
+        return db('games').insert([{
+            igdb_id: result.id,
+            title: result.name,
+            cover_url: result.cover.url,
+            desc: result.summary
+            }])
         .then(function () {
                 const promises = platforms.map(ele => {
+                    //does Platform Exist in Platforms?
                     return db('platforms')
                     .where({
                         igdb_id: ele
@@ -95,8 +92,23 @@ const addGame = function(id) {
                         }
                     })
                 }) 
-                return Promise.all(promises)
+            return Promise.all(promises)
         })
+    })
+};
+
+function verifyPlatformGames(platformid, gameid){
+    return (
+        db('platform_games')
+        .where({
+            platform_id: platformid,
+            game_id: gameid
+        })
+        .returning('*')
+    )
+    .then(data=> {
+        if(!data) throw {status:404, message: 'Game not found on that platform'}
+        return data
     })
 };
 
@@ -106,4 +118,5 @@ module.exports = {
     getGames,
     checkLibrary,
     addGame,
+    verifyPlatformGames
 }

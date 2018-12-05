@@ -46,11 +46,6 @@ function addToShelf(req,res,next){
   .catch(next)
 }
 
-function addGameToLibrary(req, res, next){
-  const gameID = req.body;
-  
-
-}
 
 module.exports = {
   create, verifyUserPlatform, addToShelf, addPlatform

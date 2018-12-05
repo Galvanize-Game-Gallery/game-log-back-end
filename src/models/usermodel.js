@@ -73,7 +73,7 @@ function addToShelf(upid, pgid, gamebody){
       .returning('*')
     )
   })
-}
+};
 
 function addPlatformToUser(userID, platformID, purchased, notes){
   return db('users')
@@ -89,14 +89,14 @@ function addPlatformToUser(userID, platformID, purchased, notes){
     if (!system) 
       throw {status: 400, message: "System does not exist"}
     
-    return db(user_platforms)
+    return db('user_platforms')
     .insert({user_id: userID, 
       platform_id: platformID, 
       year_purchased: purchased, 
       platform_notes: notes})
       .returning('*')
   })
-}
+};
 
 function addToPlatformGames (gameID, platformID) {
   return db('games')
@@ -121,22 +121,10 @@ function addToPlatformGames (gameID, platformID) {
   })
 };
 
-function addGame(gameID, title, coverArt, info) {
-  return db('games')
-  .insert({
-    igdb_id: gameID,
-    title: title,
-    cover_url: coverArt,
-    desc: info
-  })
-  .returning('*')
-};
-
 module.exports = {
   getOneByUserName,
   addPlatformToUser,
   addToPlatformGames,
-  addGame,
   create, 
   verifyUserPlatform,
   addToShelf

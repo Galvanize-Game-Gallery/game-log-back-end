@@ -59,6 +59,7 @@ function addToShelf(req,res,next){
   .catch(next)
 }
 
+
 module.exports = {
   create, verifyUserPlatform, addToShelf, addPlatform
 }

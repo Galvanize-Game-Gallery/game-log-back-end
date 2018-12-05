@@ -11,18 +11,19 @@ app.use(bodyParser.json());
 app.use(cors());
 require('dotenv').config();
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'))
 }
 
 const user = require('./src/routes/userroute')
-const game = require('./src/routes/gameroute')
 const igdb = require('./src/routes/igdbroutes');
+const auth = require('./src/routes/auth')
+const game = require('./src/routes/gameroute')
 
-app.use('/auth', require('./src/routes/auth'))
-app.use('/user', user)
-app.use('/game', game)
-app.use('/', igdb);
+app.use('/auth', auth);
+app.use('/user', user);
+app.use('/games', igdb);
+app.use('/game', game);
 
 
 app.use((err, req, res, next) => {

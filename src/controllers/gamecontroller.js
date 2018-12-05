@@ -1,5 +1,4 @@
-const model = require('../models/gamemodel.js')
-const axios = require('axios')
+const model = require('../models/gamemodel.js');
 
 function verifyPlatformGames(req,res,next) {
     if(!req.body.game_id) return next({status: 400, message: 'Bad Request, Must Include GameID'})
@@ -12,6 +11,16 @@ function verifyPlatformGames(req,res,next) {
     .catch(next)
 }
 
-module.exports = {verifyPlatformGames}
+function getLibrary(req, res, next) {
+    model.getLibrary().then(function(result){
+        if (!result) 
+            return next({status: 404, message: "Sorry, Our Library is Empty!"})
+    res.status(200).send(result)
+    })
+    .catch(next)
+}
 
-// http POST :3000/user/1/platforms/6/games game_id=231 user_rating=3 notes="What a classic"
+module.exports = {
+    verifyPlatformGames,
+    getLibrary
+}

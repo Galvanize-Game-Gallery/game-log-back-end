@@ -4,21 +4,19 @@ const client = igdb(key);
 const db = require('../../db');
 
 const checkLibrary = function(id) {
-    getGame(id)
+    return getGame(id)
     .then(function(result){
-            if(!result) throw {error: 400, message: "Game Not Found"}
+        if(!result) throw {status: 400, message: "Game Not Found"}
         return (
-        db('games')
-        .select('*')
-        .where({igdb_id: id})
-        )
-        .then(function([data]){
-            if(data) throw {error: 404, message: "Game Already Exists"}
-            return data
-        })
+            db('games')
+            .select('*')
+            .where({igdb_id: id})
+            )
     })
-    .catch(error => {
-    throw error; })
+    .then(function([data]){
+        if(data) throw {status: 404, message: "Game Already Exists"}
+        return
+    })
 };
 
 const getGame = function(id) {
@@ -38,7 +36,7 @@ const getGame = function(id) {
 const getGames = function(title) {
     return client.games({
         fields: ['id', 'name', 'cover.url'],
-        limit: 10,
+        limit: 5,
         offset: 0, 
         // order: 'rating:desc',
         search: title
@@ -93,6 +91,9 @@ const addGame = function(id) {
                     })
                 }) 
             return Promise.all(promises)
+        })
+        .catch(() => {
+            throw {error: 400, message: "Game already in Library"}
         })
     })
 };

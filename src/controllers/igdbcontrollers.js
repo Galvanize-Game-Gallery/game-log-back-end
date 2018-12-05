@@ -11,6 +11,7 @@ function getGame (req, res, next) {
 };
 
 function getGames (req, res, next) {
+    if(!req.params.title) next({status: 400, message: "Cannot Have Blank Search Term"})
     const gameTitle = req.params.title;
     model.getGames(gameTitle).then(function(result) {
         if (!result)
@@ -44,10 +45,12 @@ function addGameToLibrary (req, res, next) {
 function checkLibrary(req, res, next) {
     const gameID = req.params.id;
 
-    const result = model.checkLibrary(gameID);
-    if(result) next({status: 404, message: "Bad Library Request"})
-
-    return next(); 
+    model.checkLibrary(gameID)
+    .then(function(result){
+        if(result) next({status: 404, message: "Bad Library Request"})
+        next()
+    })
+    .catch(next)
 }
 
 function verifyPlatformGames(req,res,next) {

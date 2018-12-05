@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const userModel = require('../models/usermodel') 
-const userModel = require('../models/usermodel') // review path for updating. 
+
 const igdb = require('../models/igdbmodel')
 
 

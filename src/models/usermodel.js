@@ -75,56 +75,59 @@ function addToShelf(upid, pgid, gamebody){
   })
 };
 
-function addPlatformToUser(userID, platformID, purchased, notes){
+function addPlatformToUser(userID, body){
   return db('users')
-  .where('user.id', userID)
+  .where('users.id', userID)
   .then(function(gamer) {
     if (!gamer) 
       throw {status: 400, message: "Gamer does not exist"}
 
     return db('platforms')
-    .where('platform.igdb_id', platformID)
+    .where({igdb_id: body.platformId})
   })
   .then(function(system){
     if (!system) 
       throw {status: 400, message: "System does not exist"}
     
+      let year = body.purchased ? body.purchased : 1975
+      let notes = body.notes ? body.notes : ''
+
     return db('user_platforms')
     .insert({user_id: userID, 
-      platform_id: platformID, 
-      year_purchased: purchased, 
+      platform_id: body.platformId, 
+      year_purchased: year, 
       platform_notes: notes})
       .returning('*')
   })
 };
 
-function addToPlatformGames (gameID, platformID) {
-  return db('games')
-  .where('games.igdb_id',gameID )
-  .then(function(game){
-    if (!game)
-      throw { status: 400, message: "Game Not Found!"}
+// function addToPlatformGames (gameID, platformID) {
+//   return db('games')
+//   .where('games.igdb_id',gameID )
+//   .then(function(game){
+//     if (!game)
+//       throw { status: 400, message: "Game Not Found!"}
 
-    return db('platforms'
-    .where('platforms.igdb_id', platformID))
-  })
-  .then(function(system){
-    if (!system)
-      throw { status: 400, message: 'System not Found!'}
+//     return db('platforms'
+//     .where('platforms.igdb_id', platformID))
+//   })
+//   .then(function(system){
+//     if (!system)
+//       throw { status: 400, message: 'System not Found!'}
 
-    return db('platform_games')
-    .insert({
-      game_id: gameID,
-      platform_id: platformID
-    })
-    .returning('*')
-  })
-};
+//     return db('platform_games')
+//     .insert({
+//       game_id: gameID,
+//       platform_id: platformID
+//     })
+//     .returning('*')
+//   })
+// };
 
 module.exports = {
   getOneByUserName,
   addPlatformToUser,
-  addToPlatformGames,
+  // addToPlatformGames,
   create, 
   verifyUserPlatform,
   addToShelf

@@ -62,6 +62,14 @@ function dropFromShelf(req, res, next) {
   .catch(next)
 }
 
+function editGameOnShelf(req,res,next){
+  userModel.editGameOnShelf(req.params.gameId, req.body.user_rating, req.body.notes)
+  .then(result => {
+    res.status(202).send({result})
+  })
+  .catch(next)
+}
+
 function addPlatformToUser(req, res, next) {
   if(!req.params.userId) return next({status: 400, message: 'Bad Request, UserID is required'})
   if(!req.body.platformId) return next({status: 400, message: 'Bad Request, PlatformID is required'})
@@ -79,5 +87,5 @@ module.exports = {
   dropFromShelf, 
   addPlatform, 
   addPlatformToUser,
-
+  editGameOnShelf
 }

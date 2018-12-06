@@ -1,8 +1,12 @@
 const axios = require('axios')
+<<<<<<< HEAD
 
 const userModel = require('../models/usermodel') 
 
 const igdb = require('../models/igdbmodel')
+=======
+const userModel = require('../models/usermodel') // review path for updating. 
+>>>>>>> b777306870f4d403b0e66ff1a2e37c383513dd88
 
 
 function create(req, res, next){
@@ -21,11 +25,9 @@ function create(req, res, next){
   if(!req.body.lname){
     return next({ status: 400, message: 'Bad Request, Username required'})
   }
-
   if(!req.body.password){
     return next({ status: 400, message: 'Bad Request, Password Required'})
   }
-
   userModel.create(req.body.username, req.body.password, req.body.fname, req.body.lname)
   .then(function(data){
     return res.status(201).send({ data })
@@ -59,7 +61,30 @@ function addToShelf(req,res,next){
   .catch(next)
 }
 
+function dropFromShelf(req, res, next) {
+  userModel.dropFromShelf(req.params.gameId)
+  .then(result => {
+    res.status(202).send({result})
+  })
+  .catch(next)
+}
+
+function addPlatformToUser(req, res, next) {
+  if(!req.params.userId) return next({status: 400, message: 'Bad Request, UserID is required'})
+  if(!req.body.platformId) return next({status: 400, message: 'Bad Request, PlatformID is required'})
+  userModel.addPlatformToUser(req.params.userId, req.body)
+  .then(result => {
+    res.status(201).send({result})
+  })
+  .catch(next)
+}
 
 module.exports = {
-  create, verifyUserPlatform, addToShelf, addPlatform
+  create, 
+  verifyUserPlatform, 
+  addToShelf,
+  dropFromShelf, 
+  addPlatform, 
+  addPlatformToUser,
+
 }

@@ -6,7 +6,7 @@ function getGame (req, res, next) {
         if (!result)
         return next({ status: 404, message: "Game not Found" });
     
-    return result;
+        res.status(200).send(result);
     })
 };
 

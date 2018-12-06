@@ -4,6 +4,18 @@ const userModel = require('../models/usermodel') // review path for updating.
 
 function create(req, res, next){
   if(!req.body.username){
+    return next({ status: 400, message: 'Bad request'})
+  }
+
+  if(!req.body.password){
+    return next({ status: 400, message: 'Bad request'})
+  }
+
+  if(!req.body.fname){
+    return next({ status: 400, message: 'Bad request'})
+  }
+
+  if(!req.body.lname){
     return next({ status: 400, message: 'Bad Request, Username required'})
   }
   if(!req.body.password){

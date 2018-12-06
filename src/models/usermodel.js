@@ -125,6 +125,20 @@ function addPlatformToUser(userID, body){
   })
 };
 
+function getUserPlatforms(userId ) {
+  return db('users')
+  .where('users.id', userId) 
+  .returning('*')
+  .then(function(gamer) {
+    // if (!gamer) 
+    //   throw {status: 400, message: "Gamer does not exist"}
+  console.log(gamer)
+  return db('user_platforms')
+  .where({user_id: userId})
+  .returning('*')
+  })
+}
+
 // function addToPlatformGames (gameID, platformID) {
 //   return db('games')
 //   .where('games.igdb_id',gameID )
@@ -156,5 +170,6 @@ module.exports = {
   verifyUserPlatform,
   addToShelf,
   dropFromShelf,
-  editGameOnShelf
+  editGameOnShelf,
+  getUserPlatforms
 }

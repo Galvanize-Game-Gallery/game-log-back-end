@@ -26,6 +26,7 @@ function login(req, res, next){
 
 function getAuthStatus(req, res, next){
     res.status(200).send({id:req.claim.id})
+    
 }
 
 function isAuthenticated(req, res, next){

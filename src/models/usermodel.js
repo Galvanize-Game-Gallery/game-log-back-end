@@ -87,7 +87,17 @@ function dropFromShelf(gameid) {
       delete data.id
       return data
     })
-}
+};
+
+function editGameOnShelf(gameid, user_rating, notes) {
+  return db('user_games_platform')
+  .update({user_rating,notes})
+  .where({id: gameid})
+  .returning('*')
+  .then(function([data]){
+    return data
+  })
+};
 
 function addPlatformToUser(userID, body){
   return db('users')
@@ -145,5 +155,6 @@ module.exports = {
   create, 
   verifyUserPlatform,
   addToShelf,
-  dropFromShelf
+  dropFromShelf,
+  editGameOnShelf
 }

@@ -21,10 +21,19 @@ function getLibrary(req, res, next) {
 }
 
 function getUserGames(req, res, next) {
-    model.getUserGames().then(function(result){
+    model.getUserGames(req.body.userId, req.body.platformId).then(function(result){
          if (!result) {
              return next({status: 404, message: `Sorry, it looks like you haven't added any games yet!`}) }
-    return res.status(200).send(model.getUserGames())
+    return res.status(200).send(result)
+    })
+    
+}
+
+function getUserPlatforms(req, res, next) {
+    model.getUserPlatforms(req.body.userId).then(function(result){
+         if (!result) {
+             return next({status: 404, message: `Sorry, it looks like you haven't added any platforms yet!`}) }
+    return res.status(200).send(result)
     })
     
 }
@@ -32,5 +41,6 @@ function getUserGames(req, res, next) {
 module.exports = {
     verifyPlatformGames,
     getLibrary,
-    getUserGames
+    getUserGames,
+    getUserPlatforms
 }

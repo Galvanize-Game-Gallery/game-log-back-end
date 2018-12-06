@@ -32,27 +32,52 @@ const getLibrary = function() {
     })
 };
 
-const getUserGames = function() {
-  console.log('about to return games')
-    return db('games')
-    .join('user_platforms.userid', 'users.id')
+const getUserGames = function(userId, platformId) {
+    // return  db.raw(`Select * from users
+    // inner join user_platforms up on up.user_id = users.id
+    // inner join user_games_platform ugp on ugp.u_p_id = up.id
+    // inner join platform_games pg on pg.id = ugp.p_g_id
+    // inner join games on pg.game_id = games.igdb_id
+    // where up.platform_id = ${platformId} and 
+    // users.id = ${userId}`)
+    
+    return db('users')
+    .select('games.igdb_id', 'games.title', 'games.cover_url', 'games.desc', 'user_games_platform.user_rating', 'user_games_platform.notes','platform_games.platform_id')
+    .where('users.id', userId)
+    .join('user_platforms','user_platforms.user_id', 'users.id')
+    .where('user_platforms.platform_id', platformId)
+    .join('user_games_platform', 'user_id', 'u_p_id')
+    .join('platform_games', 'platform_games.id', 'user_games_platform.p_g_id')
+    .join('games', 'platform_games.game_id', 'games.igdb_id')
+
     .then(function(response) {
         console.log(response)
+        return response
+        
+
+
   
     })
-  .then(() => {
-      console.log('the then')
-      return "your only game is gorgar"
 
+}
+
+const getUserPlatforms = function (userId) {
+  return db('platforms')
+  .select('platforms.igdb_id', 'platforms.name', 'platforms.url', 'platforms.logo_url', 'user_platforms.platform_notes', 'user_platforms.year_purchased')
+  .join('user_platforms', 'user_platforms.platform_id', 'platforms.igdb_id')
+  .where('user_platforms.user_id', userId)
+
+  .then(function(response){
+      console.log(response)
+      return response
+      
   })
-
- 
-  
 }
 
 
 module.exports = {
     verifyPlatformGames,
     getLibrary,
-    getUserGames
+    getUserGames,
+    getUserPlatforms
 }

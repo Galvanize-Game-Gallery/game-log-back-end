@@ -65,11 +65,21 @@ const addGame = function(id) {
     .then(function([result]){
         if (!result) throw {error: 400, message: "This Game Not Found"}
         platforms = result.platforms
+        let url
+        if(!result.cover || result.cover.url) {
+            url = 'https://pbs.twimg.com/profile_images/999040468804550656/fz9_TwiQ_400x400.jpg'
+       }
+       else {
+           url = result.cover.url
+        }
+
+        let desc = result.summary ? result.summary : 'No Summary Found'
+
         return db('games').insert([{
             igdb_id: result.id,
             title: result.name,
-            cover_url: result.cover.url,
-            desc: result.summary
+            cover_url: url,
+            desc: desc
             }])
         .then(function () {
                 const promises = platforms.map(ele => {

@@ -32,7 +32,27 @@ const getLibrary = function() {
     })
 };
 
+const getUserGames = function() {
+  console.log('about to return games')
+    return db('games')
+    .join('user_platforms.userid', 'users.id')
+    .then(function(response) {
+        console.log(response)
+  
+    })
+  .then(() => {
+      console.log('the then')
+      return "your only game is gorgar"
+
+  })
+
+ 
+  
+}
+
+
 module.exports = {
     verifyPlatformGames,
-    getLibrary
+    getLibrary,
+    getUserGames
 }

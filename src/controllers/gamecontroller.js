@@ -20,7 +20,17 @@ function getLibrary(req, res, next) {
     .catch(next)
 }
 
+function getUserGames(req, res, next) {
+    model.getUserGames().then(function(result){
+         if (!result) {
+             return next({status: 404, message: `Sorry, it looks like you haven't added any games yet!`}) }
+    return res.status(200).send(model.getUserGames())
+    })
+    
+}
+
 module.exports = {
     verifyPlatformGames,
-    getLibrary
+    getLibrary,
+    getUserGames
 }

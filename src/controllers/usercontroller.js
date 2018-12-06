@@ -1,12 +1,5 @@
 const axios = require('axios')
-<<<<<<< HEAD
-
-const userModel = require('../models/usermodel') 
-
-const igdb = require('../models/igdbmodel')
-=======
 const userModel = require('../models/usermodel') // review path for updating. 
->>>>>>> b777306870f4d403b0e66ff1a2e37c383513dd88
 
 
 function create(req, res, next){

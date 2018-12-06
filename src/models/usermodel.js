@@ -41,6 +41,7 @@ function verifyUserPlatform(userid, platformid) {
     })
   )
   .then(data => {
+    console.log(data);
     if(!data) throw {status:404, message: 'User does not own this platform, cannot add game'}
 
     return data
@@ -74,6 +75,19 @@ function addToShelf(upid, pgid, gamebody){
     )
   })
 };
+
+function dropFromShelf(gameid) {
+  return db('user_games_platform')
+    .del()
+    .where({
+      id: gameid,
+    })
+    .returning('*')
+    .then(function ([data]) {
+      delete data.id
+      return data
+    })
+}
 
 function addPlatformToUser(userID, body){
   return db('users')
@@ -130,5 +144,6 @@ module.exports = {
   // addToPlatformGames,
   create, 
   verifyUserPlatform,
-  addToShelf
+  addToShelf,
+  dropFromShelf
 }

@@ -66,7 +66,7 @@ const addGame = function(id) {
         if (!result) throw {error: 400, message: "This Game Not Found"}
         platforms = result.platforms
         let url
-        if(!result.cover || result.cover.url) {
+        if(!result.cover || !result.cover.url) {
             url = 'https://pbs.twimg.com/profile_images/999040468804550656/fz9_TwiQ_400x400.jpg'
        }
        else {

@@ -21,16 +21,16 @@ function getLibrary(req, res, next) {
 }
 
 function getUserGames(req, res, next) {
-    model.getUserGames(req.body.userId, req.body.platformId).then(function(result){
+    model.getUserGames(req.params.userId, req.params.platformId).then(function(result){
          if (!result) {
-             return next({status: 404, message: `Sorry, it looks like you haven't added any games yet!`}) }
+             return next({status: 404, message: `Sorry, it looks like you haven't added any games for this platform!`}) }
     return res.status(200).send(result)
     })
     
 }
 
 function getUserPlatforms(req, res, next) {
-    model.getUserPlatforms(req.body.userId).then(function(result){
+    model.getUserPlatforms(req.params.userId).then(function(result){
          if (!result) {
              return next({status: 404, message: `Sorry, it looks like you haven't added any platforms yet!`}) }
     return res.status(200).send(result)

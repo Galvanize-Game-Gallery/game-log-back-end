@@ -4,7 +4,7 @@ const ctrl = require('../controllers/gamecontroller');
 
 router.get('/library', ctrl.getLibrary);
 
-router.get('/usergames', ctrl.getUserGames);
-router.get('/userplatforms', ctrl.getUserPlatforms);
+router.get('/usergames/:userId/:platformId', ctrl.getUserGames);
+router.get('/userplatforms/:userId', ctrl.getUserPlatforms);
 
 module.exports = router

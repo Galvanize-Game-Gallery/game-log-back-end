@@ -7,4 +7,6 @@ router.get('/id/:id', ctrl.getGame);
 router.get('/platforms/:id', ctrl.getPlatforms);
 router.post('/id/:id', ctrl.checkLibrary, ctrl.addGameToLibrary)
 
+
+
 module.exports = router

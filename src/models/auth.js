@@ -13,7 +13,7 @@ function login(username, password){
     return bcrypt.compare(password, data.password)
   })
   .then(function(status){
-    if(!status) throw { status: 401, message: "Unauthorized"}
+    if(!status) throw { status: 401, message: "Unauthorized Login"}
     delete user.password
     return user
   })

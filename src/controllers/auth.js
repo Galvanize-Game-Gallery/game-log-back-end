@@ -32,7 +32,7 @@ function getAuthStatus(req, res, next){
 function isAuthenticated(req, res, next){
 
   if(!req.headers.authorization){
-    return next({ status: 401, message: 'Unauthorized' })
+    return next({ status: 401, message: 'Unauthorized isauth1' })
   }
   const [scheme, credentials] = req.headers.authorization.split(' ')
 
@@ -40,7 +40,7 @@ function isAuthenticated(req, res, next){
 
   jwt.verify(credentials, process.env.SECRET, (err, payload)=>{
     if(err){
-      return next({ status: 401, message: 'Unauthorized' })
+      return next({ status: 401, message: 'Unauthorized isAuth2' })
     }
 
     req.claim = payload
@@ -52,7 +52,7 @@ function isAuthenticated(req, res, next){
 function isSelf(req, res, next){
 
   if(parseInt(req.params.userId) !== req.claim.id){
-    return next({ status: 401, message: 'Unauthorized' })
+    return next({ status: 401, message: 'Unauthorized isSelf' })
   }
 
   next()

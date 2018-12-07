@@ -89,17 +89,19 @@ function addToShelf(upid, pgid, gamebody){
   })
 };
 
-function dropFromShelf(gameid) {
-  return db('user_games_platform')
-    .del()
-    .where({
-      id: gameid,
-    })
-    .returning('*')
-    .then(function ([data]) {
-      delete data.id
-      return data
-    })
+function dropFromShelf(gameId, platformId, userId) {
+  return db.raw(`select ugp.id from user_games_platform ugp
+  inner join platform_games pg on ugp.p_g_id = pg.id
+  inner join user_platforms up on ugp.u_p_id = up.id
+  where up.platform_id =${platformId} and pg.game_id =${gameId} and up.user_id =${userId}`)
+  .then(result =>{
+    if(result.rows.length > 0){
+      return db.raw(`delete from user_games_platform where id=${result.rows[0].id}`)
+        .then(result => {
+          return "Deleted Successfully!"
+        })
+    }
+  })
 };
 
 function editGameOnShelf(gameid, user_rating, notes) {

@@ -65,9 +65,10 @@ function addToShelf(req,res,next){
 }
 
 function dropFromShelf(req, res, next) {
-  userModel.dropFromShelf(req.params.gameId)
+  console.log(req.params)
+  userModel.dropFromShelf(req.params.gameId, req.params.platformId, req.params.userId)
   .then(result => {
-    res.status(202).send({result})
+    res.status(202).send(result)
   })
   .catch(next)
 }

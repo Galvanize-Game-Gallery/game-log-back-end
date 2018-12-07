@@ -19,4 +19,4 @@ This Back-End utilizes the IGDB API and you will need to register and acquire yo
 Refer to the knexfile.js for swapping database location (heroku vs locally)
 
 
-Refer to the ERD **ggg.png)** to understand how the database relationships work, test.sql contains query examples
+Refer to the ERD **ggg.png** to understand how the database relationships work, test.sql contains query examples

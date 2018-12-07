@@ -1,4 +1,4 @@
-exports.seed = function(knex, Promise) {
+git exports.seed = function(knex, Promise) {
  return knex('user_games_platform').insert([
    {id: 1, p_g_id: 2, u_p_id: 1, user_rating: 2, notes: "This game is super slow, the economy sucks, the user interface is over-engineered"}, //this should be Red Dead Redemption for Beamer92 on Xbox One
    {id: 2, p_g_id: 1, u_p_id: 1, user_rating: 5}, //For Beamer92 on Xbox One, the game Halo

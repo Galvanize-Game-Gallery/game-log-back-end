@@ -56,9 +56,7 @@ function verifyUserPlatform(userid, platformid) {
     })
   )
   .then(data => {
-    console.log(data);
-    if(!data) throw {status:404, message: 'User does not own this platform, cannot add game'}
-
+    if(data.length < 1) throw {status:404, message: 'User does not own this platform, cannot add game'}
     return data
   })
 }

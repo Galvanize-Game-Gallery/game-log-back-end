@@ -55,7 +55,7 @@ function checkLibrary(req, res, next) {
 
 function verifyPlatformGames(req,res,next) {
     if(!req.body.game_id) return next({status: 400, message: 'Bad Request, Must Include GameID'})
-
+    
     model.verifyPlatformGames(req.params.platformId, req.body.game_id)
     .then(data => {
         req.pgid = data[0].id

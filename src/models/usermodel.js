@@ -1,12 +1,27 @@
 const db = require('../../db')
 const bcrypt = require('bcrypt')
 
+//Are we using this somewhere? It has no controller...
 function getOneByUserName(username){
   return (
     db('users') 
     .where({ username })
     .first()
   )
+}
+
+function getUser(userId){
+  return db('users')
+  .where({id: userId})
+  .then(function([result]) {
+    if(result){
+      delete result.password
+      return result
+    }
+    else {
+      throw {status:400, message: 'User Not Found'}
+    }
+  })
 }
 
 function create(username, password, fname, lname){  
@@ -132,5 +147,6 @@ module.exports = {
   verifyUserPlatform,
   addToShelf,
   dropFromShelf,
-  editGameOnShelf
+  editGameOnShelf,
+  getUser
 }

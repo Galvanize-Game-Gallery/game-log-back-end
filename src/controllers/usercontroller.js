@@ -35,6 +35,16 @@ function addPlatform(req, res, next){
   })
 };
 
+function getUser(req,res,next){
+  if(!req.params.userId) return next({status: 400, message: 'Bad Request, UserID is required'})
+  userModel.getUser(req.params.userId)
+  .then(result => {
+    if(!result) next({status: 400, message: 'User Not Found'})
+    res.status(200).send(result)
+  })
+  .catch(next)
+}
+
 function verifyUserPlatform(req,res,next) {
   if(!req.params.userId) return next({status: 400, message: 'Bad Request, UserID is required'})
   if(!req.params.platformId) return next({status: 400, message: 'Bad Request, Platform_ID is required'})
@@ -80,15 +90,6 @@ function addPlatformToUser(req, res, next) {
   .catch(next)
 }
 
-// function getUserPlatforms(req, res, next) {
-//   if(!req.params.userId) return next({status: 400, message: 'Bad Request, UserID is required'})
-//   userModel.getUserPlatforms(req.params.userId, req.body)
-//   .then(result => {
-//     res.status(201).send({result})
-//   })
-//   .catch(next)
-
-// }
 
 module.exports = {
   create, 
@@ -97,6 +98,6 @@ module.exports = {
   dropFromShelf, 
   addPlatform, 
   addPlatformToUser,
-  editGameOnShelf
-  // getUserPlatforms
+  editGameOnShelf,
+  getUser
 }

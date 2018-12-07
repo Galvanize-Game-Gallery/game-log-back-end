@@ -15,6 +15,16 @@ function verifyPlatformGames(platformid, gameid){
     })
 };
 
+function getPlatformGames(platformId){
+    return db.raw(`select games.cover_url, games.igdb_id, games.title, pg.id from games
+    inner join platform_games pg on pg.game_id = games.igdb_id
+    where pg.platform_id=${platformId}`)
+    .then(data => {
+        if(!data) throw {status:404, message: 'No Games Found'}
+        return data.rows
+    })
+}
+
 const getLibrary = function() {
     return db('games')
     .then(function(library) {
@@ -61,5 +71,6 @@ module.exports = {
     verifyPlatformGames,
     getLibrary,
     getUserGames,
-    getUserPlatforms
+    getUserPlatforms,
+    getPlatformGames
 }

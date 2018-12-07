@@ -1,4 +1,5 @@
 # game-log-back-end
+<<<<<<< HEAD
 
 Backend for Gamelog, a Galvanize Gamer Gallery production. 
 
@@ -32,3 +33,26 @@ On the left column, an "Add Games" button will allow the user to add games to th
 
 
 
+=======
+Back end database and server for our Q2 Project
+
+Start by cloning the repo and run
+
+```npm install```
+
+```npm run knex migrate:latest```
+
+ ```npm run knex seed:run```
+
+From there you'll have to load in a .env file
+refer to env.example for the env variables you'll need
+
+
+This Back-End utilizes the IGDB API and you will need to register and acquire your own API key for the .env file
+
+
+Refer to the knexfile.js for swapping database location (heroku vs locally)
+
+
+Refer to the ERD **ggg.png** to understand how the database relationships work, test.sql contains query examples
+>>>>>>> e5e4994dfbff908d7d6375272c7604c3325fb60a

@@ -2,7 +2,6 @@ const model = require('../models/gamemodel.js');
 
 function verifyPlatformGames(req,res,next) {
     if(!req.body.game_id) return next({status: 400, message: 'Bad Request, Must Include GameID'})
-    console.log('ok')
     model.verifyPlatformGames(req.params.platformId, req.body.game_id)
     .then(data => {
         req.pgid = data[0].id

@@ -15,6 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'))
 }
 
+// keep your file names consistent
 const user = require('./src/routes/userroute')
 const igdb = require('./src/routes/igdbroutes');
 const auth = require('./src/routes/auth')
@@ -22,6 +23,7 @@ const game = require('./src/routes/gameroute')
 
 app.use('/auth', auth);
 app.use('/user', user);
+// game vs games is confusing
 app.use('/games', igdb);
 app.use('/game', game);
 

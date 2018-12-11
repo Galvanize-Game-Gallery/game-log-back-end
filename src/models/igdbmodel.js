@@ -24,12 +24,10 @@ const getGame = function(id) {
         fields: ['id', 'name', 'cover.url', 'platforms', 'summary'],
         limit: 1,
         offset: 0, 
-        // order: 'rating:desc',
+        // order: 'rating:desc', <- remove
         ids: [id]
     }).then(response => {
-        return response.body;
-    }).catch(error => {
-        throw error;
+        return response.body; // good unwrapping of data
     })
 };
 
@@ -38,12 +36,10 @@ const getGames = function(title) {
         fields: ['id', 'name', 'cover.url'],
         limit: 5,
         offset: 0, 
-        // order: 'rating:desc',
+        // order: 'rating:desc', <- remove
         search: title
     }).then(response => {
         return response.body;
-    }).catch(error => {
-        throw error;
     })
 };
 
@@ -55,8 +51,6 @@ const getPlatforms = function(id) {
         search: id
     }).then(response => {
         return response.body;
-    }).catch(error => {
-        throw error;
     })
 };
 
@@ -82,24 +76,24 @@ const addGame = function(id) {
             desc: desc
             }])
         .then(function () {
-                const promises = platforms.map(ele => {
-                    //does Platform Exist in Platforms?
-                    return db('platforms')
-                    .where({
-                        igdb_id: ele
-                    })
-                    .then(function ([data]) {
-                        //if platform exists, add an entry to platform_games
-                        if (data) {
-                            return db('platform_games').insert([{
-                                platform_id: ele,
-                                game_id: id
-                            }])
-                        } else {
-                            return Promise.resolve({message: "Platform not part of our Database."});
-                        }
-                    })
-                }) 
+            const promises = platforms.map(ele => {
+                //does Platform Exist in Platforms?
+                return db('platforms')
+                .where({
+                    igdb_id: ele
+                })
+                .then(function ([data]) {
+                    //if platform exists, add an entry to platform_games
+                    if (data) {
+                        return db('platform_games').insert([{
+                            platform_id: ele,
+                            game_id: id
+                        }])
+                    } else {
+                        return Promise.resolve({message: "Platform not part of our Database."});
+                    }
+                })
+            }) 
             return Promise.all(promises)
         })
         .catch(() => {

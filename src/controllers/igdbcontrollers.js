@@ -2,33 +2,39 @@ const model = require('../models/igdbmodel');
 
 function getGame (req, res, next) {
     const gameID = req.params.id;
-    model.getGame(gameID).then(function(result) {
+    model.getGame(gameID)
+    .then(function(result) {
         if (!result)
         return next({ status: 404, message: "Game not Found" });
     
         res.status(200).send(result);
     })
+    .catch(next)
 };
 
 function getGames (req, res, next) {
-    if(!req.params.title) next({status: 400, message: "Cannot Have Blank Search Term"})
-    const gameTitle = req.params.title;
-    model.getGames(gameTitle).then(function(result) {
+    if(!req.query.title) next({status: 400, message: "Cannot Have Blank Search Term"})
+    const gameTitle = req.query.title; // title should be part of req.query
+    model.getGames(gameTitle)
+    .then(function(result) {
         if (!result)
         return next({ status: 404, message: "Game not Found" });
     
       res.status(200).send(result);
     })
+    .catch(next)
 };
 
 function getPlatforms (req, res, next) {
     const platformID = req.params.id;
-    model.getPlatforms(platformID).then(function(result) {
+    model.getPlatforms(platformID)
+    .then(function(result) {
         if (!result)
             return next({status: 404, message: "No Systems Found"});
             
         res.status(200).send(result)
     })
+    .catch(next)
 };
 
 function addGameToLibrary (req, res, next) {
@@ -37,7 +43,7 @@ function addGameToLibrary (req, res, next) {
         if (!result)
             return next({status: 404, message: "Game Not Found"});
 
-    res.status(200).send(result);
+        res.status(200).send(result);
     })
     .catch(next);
 };

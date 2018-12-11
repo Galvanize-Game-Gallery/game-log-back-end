@@ -13,6 +13,7 @@ function getOneByUserName(username){
 function getUser(userId){
   return db('users')
   .where({id: userId})
+  // use .first() instead of destructuring
   .then(function([result]) {
     if(result){
       delete result.password
@@ -96,11 +97,11 @@ function dropFromShelf(gameId, platformId, userId) {
   where up.platform_id =${platformId} and pg.game_id =${gameId} and up.user_id =${userId}`)
   .then(result =>{
     if(result.rows.length > 0){
-      return db.raw(`delete from user_games_platform where id=${result.rows[0].id}`)
-        .then(result => {
-          return "Deleted Successfully!"
-        })
+      return db.raw(`delete from user_games_platform where id=${result.rows[0].id}`)   
     }
+  }) // don't nest promises
+  .then(result => {
+    return "Deleted Successfully!"
   })
 };
 
@@ -109,7 +110,7 @@ function editGameOnShelf(gameid, user_rating, notes) {
   .update({user_rating,notes})
   .where({id: gameid})
   .returning('*')
-  .then(function([data]){
+  .then(function([data]){ // good unwrapping of data
     return data
   })
 };

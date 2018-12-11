@@ -16,6 +16,7 @@ function verifyPlatformGames(platformid, gameid){
 };
 
 function getPlatformGames(platformId, userId){
+    // knex query builder?
     return db.raw(`select games.cover_url, games.igdb_id, games.title, pg.id from games
     inner join platform_games pg on pg.game_id = games.igdb_id
     where pg.platform_id=${platformId} and games.igdb_id not in (select games.igdb_id from user_games_platform ugp
@@ -66,7 +67,7 @@ const getUserPlatforms = function (userId) {
   .join('user_platforms', 'user_platforms.platform_id', 'platforms.igdb_id')
   .where('user_platforms.user_id', userId)
 
-  .then(function(response){
+  .then(function(response){ // this does nothing, remove
       return response  
   })
 }

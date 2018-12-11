@@ -15,6 +15,7 @@ function create(req, res, next){
     return next({ status: 400, message: 'Bad request'})
   }
 
+  // inconsistent error messages
   if(!req.body.lname){
     return next({ status: 400, message: 'Bad Request, Username required'})
   }
@@ -57,6 +58,7 @@ function verifyUserPlatform(req,res,next) {
 }
 
 function addToShelf(req,res,next){
+  // validate req.body
   userModel.addToShelf(req.upid, req.pgid, req.body)
   .then(result => {
     res.status(201).send({result})
@@ -65,6 +67,7 @@ function addToShelf(req,res,next){
 }
 
 function dropFromShelf(req, res, next) {
+  // validate req.body
   userModel.dropFromShelf(req.params.gameId, req.params.platformId, req.params.userId)
   .then(result => {
     res.status(202).send(result)
@@ -73,6 +76,7 @@ function dropFromShelf(req, res, next) {
 }
 
 function editGameOnShelf(req,res,next){
+  // validate req.body
   userModel.editGameOnShelf(req.params.gameId, req.body.user_rating, req.body.notes)
   .then(result => {
     res.status(202).send({result})

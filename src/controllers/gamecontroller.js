@@ -14,7 +14,7 @@ function getPlatformGames(req,res,next){
     if(!req.params) return next({status: 400, message: 'Bad Request, Must Include PlatformID'})
     model.getPlatformGames(req.params.platformId, req.params.userId)
     .then(function(result){
-    if (!result) 
+    if (!result) // return empty arrays instead of 404
         return next({status: 404, message: "Sorry, We don't have any more games for this Platform. Go add some to our Library!"})
     res.status(200).send(result)
     })
@@ -23,7 +23,7 @@ function getPlatformGames(req,res,next){
 
 function getLibrary(req, res, next) {
     model.getLibrary().then(function(result){
-        if (!result) 
+        if (!result) // return empty arrays instead of 404
             return next({status: 404, message: "Sorry, Our Library is Empty!"})
     res.status(200).send(result)
     })
